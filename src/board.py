@@ -1,3 +1,6 @@
+from .pieces import PieceProperties, Piece
+
+
 class BoardProperties:
     # all file and rank labels
     FILES = {"a", "b", "c", "d", "e", "f", "g", "h"}
@@ -7,6 +10,12 @@ class BoardProperties:
     N_FILES = len(FILES)
     N_RANKS = len(RANKS)
 
+    # number of each pieces per player
+    N_PIECES = dict(pawn=8, knight=2, bishop=2, rook=2, queen=1, king=1)
+
+    # colours
+    COLOURS = {"light", "dark"}
+
     # static method for find the colour of a square
     @staticmethod
     def get_square_colour(file, rank):
@@ -14,18 +23,18 @@ class BoardProperties:
         if (ord(file) - 96) % 2:
             # if the rank is odd
             if int(rank) % 2:
-                return "black"
+                return "dark"
             # if the rank is even
             else:
-                return "white"
+                return "light"
         # if the file is even
         else:
             # if the rank is odd
             if int(rank) % 2:
-                return "white"
+                return "light"
             # if the rank is even
             else:
-                return "black"
+                return "dark"
 
 
 class Board(BoardProperties):
@@ -37,9 +46,20 @@ class Board(BoardProperties):
         # set up empty dictionary to contain square objects
         self._squares = dict()
         # loop over all square labels
-        for file in BoardProperties.FILES:
-            for rank in BoardProperties.RANKS:
-                self._squares[file+rank] = Square(file=file, rank=rank)
+        for file in self.FILES:
+            for rank in self.RANKS:
+                self._squares[file + rank] = Square(file=file, rank=rank)
+
+    @classmethod
+    def default_setup(cls) -> None:
+        # constructs and returns Board object setup for start of a game
+        pass
+
+    def reset_setup(self) -> None:
+        # clear all squares
+        # create new pieces
+        # place pieces into default position
+        pass
 
 
 class Square(BoardProperties):
@@ -53,15 +73,16 @@ class Square(BoardProperties):
     def __init__(self, file: str, rank: str) -> None:
         self.file_label = file
         self.rank_label = rank
-        self.colour = BoardProperties.get_square_colour(file=file, rank=rank)
+        self.colour = self.get_square_colour(file=file, rank=rank)
 
     @property
     def file_label(self) -> str:
         return self._file_label
 
     @file_label.setter
-    def file_label(self, file) -> None:
-        # add code to check that choice makes sense
+    def file_label(self, file: str) -> None:
+        if file not in self.FILES:
+            raise Exception(f"{file} is not a valid file.")
         self._file_label = file
 
     @property
@@ -69,8 +90,9 @@ class Square(BoardProperties):
         return self._rank_label
 
     @rank_label.setter
-    def rank_label(self, rank) -> None:
-        # add code to check that choice makes sense
+    def rank_label(self, rank: str) -> None:
+        if rank not in self.RANKS:
+            raise Exception(f"{rank} is not a valid rank.")
         self._rank_label = rank
 
     @property
@@ -78,13 +100,17 @@ class Square(BoardProperties):
         return self._colour
 
     @colour.setter
-    def colour(self, colour) -> None:
+    def colour(self, colour: str) -> None:
+        if colour not in self.COLOURS:
+            raise Exception(f"{colour} is not a valid square colour.")
         self._colour = colour
 
     @property
-    def contents(self) -> None:  # update type hint
+    def contents(self) -> Piece:  # update type hint
         return self._contents
 
     @contents.setter
-    def contents(self, piece):
+    def contents(self, piece: Piece) -> None:
+        if piece.kind not in PieceProperties.VALUES.keys():
+            raise Exception(f"{piece.kind} is not a valid piece.")
         self._contents = piece
