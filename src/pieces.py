@@ -11,7 +11,7 @@ class Piece(PieceProperties):
     _kind = None
     _value = None
 
-    def __init__(self, colour: str, kind: str) -> None:
+    def __init__(self, kind: str, colour: str) -> None:
         self.colour = colour
         self.kind = kind
 
@@ -42,5 +42,30 @@ class Piece(PieceProperties):
 
 
 class Pawn(Piece):
-    def __init__(self, colour) -> None:
-        super().__init__()
+    def __init__(self, colour: str) -> None:
+        super().__init__(kind="pawn", colour=colour)
+
+
+class Knight(Piece):
+    def __init__(self, colour: str) -> None:
+        super().__init__(kind="knight", colour=colour)
+
+
+class Bishop(Piece):
+    def __init__(self, colour: str) -> None:
+        super().__init__(kind="bishop", colour=colour)
+
+
+class Rook(Piece):
+    def __init__(self, colour: str) -> None:
+        super().__init__(kind="rook", colour=colour)
+
+
+class Queen(Piece):
+    def __init__(self, colour: str) -> None:
+        super().__init__(kind="queen", colour=colour)
+
+
+class King(Piece):
+    def __init__(self, colour: str) -> None:
+        super().__init__(kind="king", colour=colour)

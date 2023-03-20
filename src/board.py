@@ -1,4 +1,4 @@
-from .pieces import PieceProperties, Piece
+from .pieces import *
 
 
 class BoardProperties:
@@ -43,6 +43,23 @@ class Board(BoardProperties):
 
     # instantiate class and set up squares
     def __init__(self) -> None:
+        self.setup_squares()
+
+    @classmethod
+    def default_setup(cls) -> "Board":
+        # construct board
+        board = cls()
+        # reset the setup
+        board.reset_setup()
+        # return the set up board
+        return board
+
+    def reset_setup(self) -> None:
+        # clear all squares
+        self.clear_squares()
+        # create and place pieces
+
+    def setup_squares(self) -> None:
         # set up empty dictionary to contain square objects
         self._squares = dict()
         # loop over all square labels
@@ -50,16 +67,16 @@ class Board(BoardProperties):
             for rank in self.RANKS:
                 self._squares[file + rank] = Square(file=file, rank=rank)
 
-    @classmethod
-    def default_setup(cls) -> None:
-        # constructs and returns Board object setup for start of a game
-        pass
+    def clear_squares(self) -> None:
+        # loop over all squares
+        for square in self.squares:
+            self.squares[square].clear()
 
-    def reset_setup(self) -> None:
-        # clear all squares
-        # create new pieces
-        # place pieces into default position
-        pass
+    @property
+    def squares(self) -> dict:
+        if self._squares is None:
+            raise Exception(f"Board contains no squares.")
+        return self._squares
 
 
 class Square(BoardProperties):
@@ -74,6 +91,10 @@ class Square(BoardProperties):
         self.file_label = file
         self.rank_label = rank
         self.colour = self.get_square_colour(file=file, rank=rank)
+
+    def clear(self) -> None:
+        # access private attribute directly since we are not setting a Piece
+        self._contents = None
 
     @property
     def file_label(self) -> str:
