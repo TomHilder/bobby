@@ -58,6 +58,7 @@ class Board(BoardProperties):
         # clear all squares
         self.clear_squares()
         # create and place pieces
+        self.setup_all_pieces()
 
     def setup_squares(self) -> None:
         # set up empty dictionary to contain square objects
@@ -77,6 +78,23 @@ class Board(BoardProperties):
         if self._squares is None:
             raise Exception(f"Board contains no squares.")
         return self._squares
+    
+    def setup_all_pieces(self) -> None:
+        # setup pieces for both colours
+        for colour in PieceProperties.COLOURS:
+            self.setup_pieces(colour=colour)
+    
+    def setup_pieces(self, colour: str) -> None:
+        # check colour is valid
+        if colour not in PieceProperties.COLOURS:
+            raise Exception(f"{colour} is not a valid piece colour.")
+        # loop over all piece kinds for that colour
+        for piece_kind in PieceProperties.DEFAULT_LOC[colour]:
+            # loop over all default locations
+            for square in PieceProperties.DEFAULT_LOC[colour][piece_kind]:
+                # place piece
+                PieceClass = get_piece_class(piece_kind=piece_kind)
+                self.squares[square].contents = PieceClass(colour)
 
 
 class Square(BoardProperties):
