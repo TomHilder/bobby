@@ -1,3 +1,6 @@
+from .board_properties import BoardProperties
+
+
 def get_piece_class(piece_kind):
     PIECES = dict(
         pawn=Pawn,
@@ -35,6 +38,10 @@ class PieceProperties:
         king={"e8"},
     )
     DEFAULT_LOC = dict(white=DEFAULT_LOC_WHITE, black=DEFAULT_LOC_BLACK)
+    
+    # NOTE: not sure if keeping the below
+    # # movement logic
+    # MOVEMENT_LOGIC = dict() # add movement logic classes here
 
 
 class Piece(PieceProperties):
