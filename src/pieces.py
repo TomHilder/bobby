@@ -53,6 +53,9 @@ class Piece(PieceProperties):
     def __init__(self, kind: str, colour: str) -> None:
         self.colour = colour
         self.kind = kind
+        
+    def __str__(self) -> str:
+        return f"{self.colour} {self.kind}"
 
     @property
     def colour(self) -> str:
