@@ -12,6 +12,10 @@ class BoardProperties:
 
     # colours
     COLOURS = {"light", "dark"}
+    COLOUR_VALS = dict(
+        light = (216, 187, 158),
+        dark  = ( 86,  72,  67)
+    )
 
     # static method for find the colour of a square
     @staticmethod
