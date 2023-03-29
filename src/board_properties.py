@@ -1,3 +1,7 @@
+class InvalidSquareError(Exception):
+    "Raised when a square label is not valid"
+    pass
+
 class BoardProperties:
     # all file and rank labels
     FILES = {"a", "b", "c", "d", "e", "f", "g", "h"}
