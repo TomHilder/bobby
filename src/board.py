@@ -26,7 +26,7 @@ class Board(BoardProperties):
             sq_1 = self.squares[square_start]
             sq_2 = self.squares[square_destination]
         except:
-            raise Exception("Square labels are not valid.")
+            raise InvalidSquareError("One or more square labels are not valid.")
         # grab piece in start square
         piece = sq_1.contents
         # NOTE: add piece-dependent movement logic 
