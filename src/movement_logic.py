@@ -1,5 +1,8 @@
 from .pieces import Piece
 from .squares import Square
+from .board_properties import BoardProperties
+
+from typing import Tuple
 
 # def check_move_legal(current_square, destination_square, piece_kind) -> bool:
 #     if destination_square in get_legal_moves(current_square, piece_kind):
@@ -13,102 +16,162 @@ from .squares import Square
 
 # NOTE: put movement type into Piece classes!
 
-class Movement():
+class BasicMovements():
     
-    _current_square = None
-    _piece          = None
+    @staticmethod
+    def get_file_and_rank(in_square_label: str) -> Tuple[str, str]:
+        # check length of label is correct
+        if len(in_square_label) != 2:
+            raise Exception(f"{in_square_label} must have length 2.")
+        # get file and rank
+        file = in_square_label[0]
+        rank = in_square_label[1]
+        # check that file and rank are valid
+        if file not in BoardProperties.FILES or rank not in BoardProperties.RANKS:
+            raise Exception(f"{in_square_label} is not a valid square.")
+        # return file and rank
+        return file, rank
     
-    def __init__(self, current_square: Square, piece: Piece) -> None:
-        pass
-
-class Movement():
+    @staticmethod
+    def increment_file(in_file: str) -> str:
+        # increment file
+        out_file = chr(ord(in_file) + 1)
+        # check output file is valid
+        if out_file not in BoardProperties.FILES:
+            raise Exception(f"Cannot increment file, {in_file} is already the max.")
+        # return output file
+        return out_file
     
-    _current_square = None
-    _destinations   = None
+    @staticmethod
+    def decrement_file(in_file: str) -> str:
+        # decrement file
+        out_file = chr(ord(in_file) - 1)
+        # check output file is valid
+        if out_file not in BoardProperties.FILES:
+            raise Exception(f"Cannot decrement file, {in_file} is already the min.")
+        # return output file
+        return out_file
     
-    def __init__(self, current_square) -> None:
-        pass
+    @staticmethod
+    def increment_rank(in_rank: str) -> str:
+        # increment rank
+        out_rank = chr(ord(in_rank) + 1)
+        # check output is valid
+        if out_rank not in BoardProperties.RANKS:
+            raise Exception(f"Cannot increment rank, {in_rank} is already the max.")
+        # return output rank
+        return out_rank
     
-    @classmethod
-    def get_destinations(cls, current_square) -> None:
+    @staticmethod
+    def decrement_rank(in_rank: str) -> str:
+        # decrement rank
+        out_rank = chr(ord(in_rank) - 1)
+        # check output is valid
+        if out_rank not in BoardProperties.RANKS:
+            raise Exception(f"Cannot decrement rank, {in_rank} is already the min.")
+    
+    @staticmethod
+    def up(in_square_label: str) -> str:
+        file, rank = BasicMovements.get_file_and_rank(in_square_label)
+        rank
         
-        movement = cls(current_square)
-        # find all legal moves and store in legal_moves
-        return cls
 
-class PawnMove():
+# class Movement():
     
-    @staticmethod
-    def move(current_square, destination_square) -> bool:
-        pass
+#     _current_square = None
+#     _piece          = None
     
-    @staticmethod
-    def take(current_square, destination_square) -> bool:
-        pass
-    
-    @staticmethod
-    def promote(current_square, destination_square) -> bool:
-        pass
+#     def __init__(self, current_square: Square, piece: Piece) -> None:
+#         pass
 
-class KnightMove():
+# class Movement():
     
-    @staticmethod
-    def move(current_square, destination_square) -> bool:
-        pass
+#     _current_square = None
+#     _destinations   = None
     
-    @staticmethod
-    def take(current_square, destination_square) -> bool:
-        pass
+#     def __init__(self, current_square) -> None:
+#         pass
+    
+#     @classmethod
+#     def get_destinations(cls, current_square) -> None:
+        
+#         movement = cls(current_square)
+#         # find all legal moves and store in legal_moves
+#         return cls
 
-class BishopMove():
+# class PawnMove():
     
-    @staticmethod
-    def move(current_square, destination_square) -> bool:
-        pass
+#     @staticmethod
+#     def move(current_square, destination_square) -> bool:
+#         pass
     
-    @staticmethod
-    def take(current_square, destination_square) -> bool:
-        pass
+#     @staticmethod
+#     def take(current_square, destination_square) -> bool:
+#         pass
+    
+#     @staticmethod
+#     def promote(current_square, destination_square) -> bool:
+#         pass
 
-class RookMove():
+# class KnightMove():
     
-    @staticmethod
-    def move(current_square, destination_square) -> bool:
-        pass
+#     @staticmethod
+#     def move(current_square, destination_square) -> bool:
+#         pass
     
-    @staticmethod
-    def take(current_square, destination_square) -> bool:
-        pass
+#     @staticmethod
+#     def take(current_square, destination_square) -> bool:
+#         pass
 
-class QueenMove():
+# class BishopMove():
     
-    @staticmethod
-    def move(current_square, destination_square) -> bool:
-        pass
+#     @staticmethod
+#     def move(current_square, destination_square) -> bool:
+#         pass
     
-    @staticmethod
-    def take(current_square, destination_square) -> bool:
-        pass
+#     @staticmethod
+#     def take(current_square, destination_square) -> bool:
+#         pass
 
-class KingMove():
+# class RookMove():
     
-    @staticmethod
-    def move(current_square, destination_square) -> bool:
-        pass
+#     @staticmethod
+#     def move(current_square, destination_square) -> bool:
+#         pass
     
-    @staticmethod
-    def take(current_square, destination_square) -> bool:
-        pass
+#     @staticmethod
+#     def take(current_square, destination_square) -> bool:
+#         pass
+
+# class QueenMove():
     
-def get_movement_class(piece_kind: str) -> Movement:
-    PIECE_MOVEMENT = dict(
-        pawn=PawnMove,
-        knight=KnightMove,
-        bishop=BishopMove,
-        rook=RookMove,
-        queen=QueenMove,
-        king=KingMove,
-    )
-    if piece_kind not in PIECE_MOVEMENT:
-        raise Exception(f"{piece_kind} is not a valid piece")
-    return PIECE_MOVEMENT[piece_kind]
+#     @staticmethod
+#     def move(current_square, destination_square) -> bool:
+#         pass
+    
+#     @staticmethod
+#     def take(current_square, destination_square) -> bool:
+#         pass
+
+# class KingMove():
+    
+#     @staticmethod
+#     def move(current_square, destination_square) -> bool:
+#         pass
+    
+#     @staticmethod
+#     def take(current_square, destination_square) -> bool:
+#         pass
+    
+# def get_movement_class(piece_kind: str) -> Movement:
+#     PIECE_MOVEMENT = dict(
+#         pawn=PawnMove,
+#         knight=KnightMove,
+#         bishop=BishopMove,
+#         rook=RookMove,
+#         queen=QueenMove,
+#         king=KingMove,
+#     )
+#     if piece_kind not in PIECE_MOVEMENT:
+#         raise Exception(f"{piece_kind} is not a valid piece")
+#     return PIECE_MOVEMENT[piece_kind]
